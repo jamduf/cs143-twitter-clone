@@ -5,3 +5,7 @@ psycopg2-binary==2.9.6
 pytest
 pytest-flask
 werkzeug==2.3.8
+Faker
+tqdm
+essential_generators
+

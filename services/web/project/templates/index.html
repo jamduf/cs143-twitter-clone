@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+  <h1>Latest Messages</h1>
+
+  {% for msg, username in messages.items %}
+    <div style="margin-bottom: 1em;">
+      <strong>{{ username }}</strong><br>
+      <small>{{ msg.created_at }}</small>
+      <p>{{ msg.content }}</p>
+    </div>
+  {% endfor %}
+
+  <div style="margin-top: 1em;">
+    {% if messages.has_prev %}
+      <a href="/?page={{ messages.prev_num }}">Previous</a>
+    {% endif %}
+    {% if messages.has_next %}
+      <a href="/?page={{ messages.next_num }}">Next</a>
+    {% endif %}
+  </div>
+{% endblock %}

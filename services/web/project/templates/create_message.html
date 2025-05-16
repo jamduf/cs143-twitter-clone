@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Create Message{% endblock %}
+{% block content %}
+  <h2>Create a New Message</h2>
+  {% if error %}
+    <p style="color: red;">{{ error }}</p>
+  {% endif %}
+  <form method="POST">
+    <textarea name="content" rows="4" cols="50" placeholder="What's on your mind?" required></textarea><br>
+    <button type="submit">Post</button>
+  </form>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Search{% endblock %}
+{% block content %}
+
+<h1>Search Messages</h1>
+
+<form method="GET" action="{{ url_for('search') }}">
+  <input type="text" name="q" value="{{ query }}" placeholder="Enter search terms..." required>
+  <button type="submit">Search</button>
+</form>
+
+<hr>
+
+{% if messages %}
+  {% for m in messages %}
+    <div style="margin-bottom: 1.5em;">
+      <strong>{{ m.username }}</strong> – {{ m.created_at }}<br>
+      <p>{{ m.highlighted|safe }}</p>
+    </div>
+  {% endfor %}
+
+  <div>
+    {% if has_prev %}
+      <a href="{{ url_for('search', q=query, page=page - 1) }}">← Previous</a>
+    {% endif %}
+    {% if has_next %}
+      {% if has_prev %} | {% endif %}
+      <a href="{{ url_for('search', q=query, page=page + 1) }}">Next →</a>
+    {% endif %}
+  </div>
+{% else %}
+  <p>No results found for "<strong>{{ query }}</strong>".</p>
+
+  {% if suggestions %}
+    <p>Did you mean:</p>
+    <ul>
+      {% for s in suggestions %}
+        <li><a href="{{ url_for('search', q=s) }}">{{ s }}</a></li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endif %}
+
+{% endblock %}
