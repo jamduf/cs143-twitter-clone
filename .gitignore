@@ -1,15 +1,6 @@
 # Ignore environment variable files
 .env.prod
 .env.prod.db
-.env*
-*.db
-*.sqlite
-*.log
-*.pid
-*.tar
-*.sock
-*.envrc
-docker-compose.override.yml
 
 # Ignore Docker volumes
 *.vol
