@@ -1,0 +1,53 @@
+name: Run Flask Docker Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: hello_flask
+          POSTGRES_PASSWORD: hello_flask
+          POSTGRES_DB: hello_flask_dev
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U hello_flask"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Compose
+        run: docker compose -f docker-compose.yml build
+
+      - name: Start containers
+        run: docker compose -f docker-compose.yml up -d
+
+      - name: Wait for DB to be ready
+        run: |
+          until docker compose exec db pg_isready -U hello_flask; do
+            echo "Waiting for database..."
+            sleep 2
+          done
+
+      - name: Seed the test database
+        run: docker compose exec web python manage.py seed_db
+
+      - name: Run tests
+        run: docker compose exec web pytest
+
+      - name: Shut down containers
+        if: always()
+        run: docker compose down

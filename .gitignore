@@ -1,0 +1,37 @@
+# Ignore environment variable files
+.env.prod
+.env.prod.db
+.env*
+*.db
+*.sqlite
+*.log
+*.pid
+*.tar
+*.sock
+*.envrc
+docker-compose.override.yml
+
+# Ignore Docker volumes
+*.vol
+
+# Ignore Python bytecode files
+__pycache__/
+*.pyc
+*.pyo
+env/
+# Ignore virtual environment
+venv/
+.env/
+*.egg-info/
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+.DS_Store
+services/web/__pycache__/
+services/web/env/
+# Ignore Flask migrations
+migrations/
+~
